@@ -7,4 +7,4 @@ The usage of this project is limited to its creators, meaning all unrightful usa
 
 # Purpose
 
-The purpose of this project is to provide Roblox developers and users a tool for broader understanding for current roblox gaming trends, either for academic or developmental purposes.
+The purpose of this project is to provide Roblox developers and users a tool for broader understanding of current roblox gaming trends, either for academic or developmental purposes.
