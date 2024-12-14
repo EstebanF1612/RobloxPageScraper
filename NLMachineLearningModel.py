@@ -11,6 +11,9 @@ import joblib
 
 nltk.download('stopwords')
 nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+nltk.download('punkt_tab')
 
 spell = SpellChecker()
 
@@ -24,7 +27,7 @@ def preprocess_text(text):
     
     corrected_tokens = [spell.correction(token) for token in tokens]
     
-    filtered_tokens = [word for word in corrected_tokens if word not in stopwords.words('english')]
+    filtered_tokens = [word for word in corrected_tokens if word and word not in stopwords.words('english')]
     
     return ' '.join(filtered_tokens)
 
@@ -114,15 +117,17 @@ preprocessed_game_names = [preprocess_text(name) for name in game_names]
 label_encoder = LabelEncoder()
 encoded_topics = label_encoder.fit_transform(topics)
 
+'''
 # Text data -> numerical features
 vectorizer = TfidfVectorizer(stop_words=nltk.corpus.stopwords.words('english'))
 X = vectorizer.fit_transform(preprocessed_game_names)
+'''
 
 # Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, encoded_topics, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(preprocessed_game_names, encoded_topics, test_size=0.2, random_state=42)
 
 # Pipeline
-model = make_pipeline(vectorizer, LogisticRegression())
+model = make_pipeline(TfidfVectorizer(), LogisticRegression())
 
 # Model training
 model.fit(X_train, y_train)
@@ -130,6 +135,5 @@ model.fit(X_train, y_train)
 # Save model
 joblib.dump(model, 'game_topic_model.pkl')
 joblib.dump(label_encoder, 'label_encoder.pkl')
-joblib.dump(vectorizer, 'vectorizer.pkl')
 
 print("Model trained and saved!")
