@@ -1,22 +1,9 @@
-# def get_csrf_token(session):
-    
-#     import re
-    
-#     url = "https://www.roblox.com/charts"
-    
-#     response = session.get(url)
-#     response.raise_for_status()
-    
-#     token_pattern = "setToken\\('(?P<csrf_token>[^\\)]+)'\\)"
-    
-#     match = re.search(token_pattern, response.text)
-#     assert match
-#     return match.group("csrf_token")
+import joblib
 
 def get_Games(data, params):
     for i in range(1, len(data['sorts'])):
         if (data['sorts'][i]['sortDisplayName'] == params):
-            return data['sorts'][i]['games']
+            return [game for game in data['sorts'][i]['games'] if not game.get('isSponsored', False)]
     
     
 
@@ -58,40 +45,31 @@ def main():
         for i in range(len(categories)):
             categories[i] = int(categories[i])
         
-        match categories:
-            case [1]:
-                topTrendingGames = get_Games(data, "Top Trending")
-            case [2]:
-                upAndComingGames = get_Games(data, "Up-and-Coming")
-            case [3]:
-                funWithFriendsGames = get_Games(data, "Fun with Friends")
-            case [4]:
-                topRevisitedGames = get_Games(data, "Top Revisited")
-            case [5]:
-                topEarningGames = get_Games(data, "Top Earning")
-        
         print("====================================\nData Segregation Complete!\n====================================")
-        print("====================================\nnBeggining Data Analysis\n====================================")
+        print("====================================\nBeggining Data Analysis\n====================================")
         
-        # analysis for top trending games
-        prevalentGenres = []
-        prevalentTopics = []
-        prevalentGames = []
+        for category in categories:
+            categoryData = []
+            match category:
+                case [1]:
+                    categoryData = get_Games(data, "Top Trending")
+                case [2]:
+                    categoryData = get_Games(data, "Up-and-Coming")
+                case [3]:
+                    categoryData = get_Games(data, "Fun with Friends")
+                case [4]:
+                    categoryData = get_Games(data, "Top Revisited")
+                case [5]:
+                    categoryData = get_Games(data, "Top Earning")
+                    
+            if (categoryData):
+                print(f"Category {category} has {len(categoryData)} games")
+            else:
+                print(f"Category {category} is not valid\nSkipping...")
+        print("====================================\nData Analysis Complete!\n====================================")
         
     else:
         print(f"Request failed with status code: {response.status_code}")
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
 
 if __name__ == "__main__":
     import sys
