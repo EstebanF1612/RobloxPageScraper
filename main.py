@@ -51,21 +51,23 @@ def main():
         for category in categories:
             categoryData = []
             match category:
-                case [1]:
+                case 1:
                     categoryData = get_Games(data, "Top Trending")
-                case [2]:
+                case 2:
                     categoryData = get_Games(data, "Up-and-Coming")
-                case [3]:
+                case 3:
                     categoryData = get_Games(data, "Fun with Friends")
-                case [4]:
+                case 4:
                     categoryData = get_Games(data, "Top Revisited")
-                case [5]:
+                case 5:
                     categoryData = get_Games(data, "Top Earning")
                     
             if (categoryData):
-                print(f"Category {category} has {len(categoryData)} games")
+                print(f"===========\nCategory {category}\n===========\n")
+                for game in categoryData:
+                    print(f"{game['name']}\n")
             else:
-                print(f"Category {category} is not valid\nSkipping...")
+                print(f"===========\nCategory {category} is not valid\nSkipping...===========\n")
         print("====================================\nData Analysis Complete!\n====================================")
         
     else:
@@ -74,22 +76,3 @@ def main():
 if __name__ == "__main__":
     import sys
     sys.exit(main())
-    
-
-
-# import requests
-    
-    # url = "https://www.roblox.com/charts"
-    
-    # session = requests.get(url)
-    
-    # # print(session.status_code)
-    
-    # print(session.text)
-    # '''
-    # params = {
-        
-    # }
-    # '''
-    
-    # #csrf_token = get_csrf_token(session)
