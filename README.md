@@ -1,10 +1,6 @@
 # RobloxPageScraper
  An intuitive program that scraps the information from the roblox chart page and provides users the current gaming trends, either for development or academic purposes
 
-# Usage of this project
-
-The usage of this project is limited to its creators, meaning all unrightful usage of this file outside of its owners' intent is prohibited.
-
 # Purpose
 
 The purpose of this project is to provide Roblox developers and users a tool for broader understanding of current roblox gaming trends, either for academic or developmental purposes.
@@ -17,4 +13,4 @@ This project incorporates machine learning practices, in the hopes of avoiding c
 
 # License and Recognition
 
-Given this is a personal project aimed to help users understand the current gaming trends on the platform, I ask of you to credit me (Esteban Flores (c) 2024) in whatever work or projects you have made with the help of this tool. Thank you.
+Given this is a personal project aimed to help users understand the current gaming trends on the platform, I ask of you to credit me (Esteban Flores (c) 2025) in whatever work or projects you have made with the help of this tool. Thank you.
