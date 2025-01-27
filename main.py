@@ -1,14 +1,30 @@
 import joblib
+import requests
+
+# Model Load
+model = joblib.load("game_topic_model.pkl")
+label_encoder = joblib.load("label_encoder.pkl")
+
+def identify_topics(game_name):
+    predicted_topic = model.predict([game_name])
+    return label_encoder.inverse_transform([predicted_topic])
 
 def get_Games(data, params):
+    games = []
     for i in range(1, len(data['sorts'])):
         if (data['sorts'][i]['sortDisplayName'] == params):
-            return [game for game in data['sorts'][i]['games'] if not game.get('isSponsored', False)]
+            games = [game for game in data['sorts'][i]['games'] if not game.get('isSponsored', False)]
+            break
+        
+    for game in games:
+        game_name = game.get('name', '')
+        game['topic'] = identify_topics(game_name)
+        
+    return games
     
     
 
 def main():
-    import requests
     
     print("Please input your device of inquiry (input \"all\" if research must be performed on all devices): ")
     device = input()
@@ -48,6 +64,8 @@ def main():
         print("====================================\nData Segregation Complete!\n====================================")
         print("====================================\nBeggining Data Analysis\n====================================")
         
+        
+        
         for category in categories:
             categoryData = []
             match category:
@@ -65,7 +83,7 @@ def main():
             if (categoryData):
                 print(f"===========\nCategory {category}\n===========\n")
                 for game in categoryData:
-                    print(f"{game['name']}\n")
+                    print(f"Game: {game['name']} -----> Topic: {game['topic']}")
             else:
                 print(f"===========\nCategory {category} is not valid\nSkipping...===========\n")
         print("====================================\nData Analysis Complete!\n====================================")
